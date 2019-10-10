@@ -1,0 +1,53 @@
+class Solution {
+public:
+   Node* flatten(Node* head) {
+	for (Node* h = head; h; h = h->next)
+	{
+		if (h->child)
+		{
+			Node* next = h->next;
+			h->next = h->child;
+			h->next->prev = h;
+			h->child = NULL;
+			Node* p = h->next;
+			while (p->next) p = p->next;
+			p->next = next;
+			if (next) next->prev = p;
+		}
+	}
+	return head;
+}
+};
+
+class Solution {
+public:
+    Node* flatten(Node* head) {   
+        if(head!=NULL){
+            func(head, NULL);
+        }
+        return head;
+    }  
+    void func(Node* head, Node* q) {
+        if(head==NULL) {
+            return;
+        }
+        func(head->next, q);
+        if(q != NULL && head->next== NULL)
+        {
+            head->next=q;
+            q->prev = head;
+        }
+
+        if(head->child)
+        {
+            Node* temp = head->next;
+            func(head->child, temp);
+            head->next = head->child;
+            head->child->prev = head;
+            head->child=NULL;
+        }
+
+        return;
+    }
+
+};
